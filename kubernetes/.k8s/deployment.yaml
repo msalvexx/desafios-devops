@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: idwall-deployment
+spec:
+  selector:
+    matchLabels:
+      app: idwall-app
+  template:
+    metadata:
+      labels:
+        app: idwall-app
+    spec:
+      containers:
+        - name: idwall-app
+          image: idwall
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 3000
+          resources:
+              requests:
+                cpu: "100m"
+                memory: 32Mi
+              limits:
+                cpu: "300m"
+                memory: "64Mi"
+          envFrom:
+            - configMapRef:
+                name: idwall-conf
+          livenessProbe:
+              httpGet:
+                path: /
+                port: 3000
+              initialDelaySeconds: 5
+              periodSeconds: 15
