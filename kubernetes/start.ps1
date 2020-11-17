@@ -1,4 +1,6 @@
 "Aguarde um momento, estamos iniciando o seu ambiente kubernetes"
+"Criando imagem do container"
+docker build . --tag idwall-app
 "Aplicando o configmap..."
 kubectl apply -f ./.k8s/configmap.yaml
 "Aplicando o deployment..."
